@@ -92,17 +92,21 @@ func OrderMatchingMechanisum() {
 		fmt.Println("Please enter values to Bid")
 		return
 	}
-
 	keys := make([]string, 0, len(_bids))
 
+	//1. sort bid  orders in descending order of duration;
 	sort.Sort(sort.Reverse(sort.StringSlice(keys)))
 
 	for duration, attrBid := range _bids {
 
 		var quantity, qxp float64 = 0, 0
 
+		//4. once the first bid is filled, move to the next one in the list with descending order of bid duration, and repeat steps 2 to 4
 		for id, orders := range _orders {
 
+			//2.check offer eligibility using following conditions:  ⁃
+			//   i. price condition: (bid price) >= (offer price)
+			//  ii. duration condition: (bid duration) <= (offer duration)
 			if attrBid.bid >= orders.price && duration <= orders.duration {
 
 				if _bids[duration].quantity == 0 {
@@ -145,6 +149,11 @@ func OrderMatchingMechanisum() {
 
 				qxp += minQuantity * minBidPrice
 
+				//3. when price condition and duration conditions are both met:
+				//  ⁃ satisfy as much of bid order as possible with eligible offer having minimum duration
+				//  - if any of the bid is left unfilled, move to the next lowest duration offer
+				//  - for bids which are filled, i. price will be the lowest of bid and offer prices;
+				//								ii. duration will be lowest of bid and offer durations
 				if entry, ok := _bids[duration]; ok {
 					entry.quantity = _bids[duration].quantity - minQuantity
 					_bids[duration] = entry
