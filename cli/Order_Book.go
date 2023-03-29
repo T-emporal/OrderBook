@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"math"
 	"sort"
+
+	"gonum.org/v1/plot/plotter"
 )
 
 var _id, _id2 int = 1, 1
 var _orders = make(map[int]Order)
 var _bids = make(map[int]Bid)
+var _xys plotter.XYs
 
 //	var _desortedbid = make(map[int]Bid)
 
@@ -23,6 +26,8 @@ type Order struct {
 	quantity float64
 	duration int
 }
+
+type xy struct{ x, y float64 }
 
 // type OrderBook struct {
 // 	bids map[float64][]Order
@@ -149,6 +154,8 @@ func OrderMatchingMechanisum() {
 
 				qxp += minQuantity * minBidPrice
 
+				_xys = append(_xys, struct{ X, Y float64 }{minDuration, minBidPrice})
+
 				//3. when price condition and duration conditions are both met:
 				//  ⁃ satisfy as much of bid order as possible with eligible offer having minimum duration
 				//  - if any of the bid is left unfilled, move to the next lowest duration offer
@@ -174,6 +181,8 @@ func OrderMatchingMechanisum() {
 		}
 
 	}
+
+	PlotGraph()
 
 }
 
