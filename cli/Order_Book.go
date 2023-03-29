@@ -124,7 +124,7 @@ func OrderMatchingMechanisum() {
 				fmt.Println("Offer ID: ", id)
 
 				minQuantity := math.Min(_bids[duration].quantity, _orders[id].quantity)
-				minDuration := math.Min(float64(duration), orders.quantity)
+				minDuration := math.Min(float64(duration), float64(_orders[id].duration))
 				minBidPrice := math.Min(attrBid.bid, orders.price)
 
 				// fmt.Println("Bid Quantity1: ", _bids[duration].quantity)
