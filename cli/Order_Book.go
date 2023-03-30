@@ -105,6 +105,8 @@ func OrderMatchingMechanisum() {
 	for duration, attrBid := range _bids {
 
 		var quantity, qxp float64 = 0, 0
+		var eligiableOrderDuration []int
+		var eligiableIds []int
 
 		//4. once the first bid is filled, move to the next one in the list with descending order of bid duration, and repeat steps 2 to 4
 		for id, orders := range _orders {
@@ -113,65 +115,94 @@ func OrderMatchingMechanisum() {
 			//   i. price condition: (bid price) >= (offer price)
 			//  ii. duration condition: (bid duration) <= (offer duration)
 			if attrBid.bid >= orders.price && duration <= orders.duration {
+				eligiableOrderDuration = append(eligiableOrderDuration, _orders[id].duration)
+			}
+		}
+		sort.Slice(eligiableOrderDuration, func(i, j int) bool {
+			return eligiableOrderDuration[i] < eligiableOrderDuration[j]
+		})
 
-				if _bids[duration].quantity == 0 {
-					//fmt.Println("Order Quantity Empty for Order ID: ", id)
-					continue
-				}
+		// fmt.Println(eligiableOrderDuration)
 
-				if _orders[id].quantity == 0 {
-					//fmt.Println("Bid Quantity Empty")
-					continue
-				}
+		for _, orderDuration := range eligiableOrderDuration {
 
-				//if attrBid.quantity >= orders.quantity {
-				fmt.Println("\nBid ID: ", attrBid.ID)
-				fmt.Println("Offer ID: ", id)
-
-				minQuantity := math.Min(_bids[duration].quantity, _orders[id].quantity)
-				minDuration := math.Min(float64(duration), float64(_orders[id].duration))
-				minBidPrice := math.Min(attrBid.bid, orders.price)
-
-				// fmt.Println("Bid Quantity1: ", _bids[duration].quantity)
-				// fmt.Println("Order Quantity1: ", _orders[id].quantity)
-				fmt.Println("Quantity: ", minQuantity)
-				//fmt.Println("difference1 :", attrBid.quantity-orders.quantity)
-
-				// fmt.Println("Bid Duration: ", _bids[duration].quantity)
-				// fmt.Println("Order Duration: ", _orders[id].quantity)
-				fmt.Println("Duration: ", minDuration)
-
-				// fmt.Println("Bid Price: ", attrBid.bid)
-				// fmt.Println("Order Price: ", orders.price)
-				fmt.Println("Price:", minBidPrice)
-				fmt.Println("Amount: ", minBidPrice*minQuantity)
-
-				// fmt.Println("Bid Quantity2: ", _bids[duration].quantity)
-				// fmt.Println("Difference: ", _bids[duration].quantity-minQuantity)
-				// fmt.Println("_orders Quantity2: ", _orders[id].quantity)
-				//fmt.Println("Difference: ", _orders[id].quantity-minQuantity)
-				quantity += minQuantity
-
-				qxp += minQuantity * minBidPrice
-
-				_xys = append(_xys, struct{ X, Y float64 }{minDuration, minBidPrice})
-
-				//3. when price condition and duration conditions are both met:
-				//  ⁃ satisfy as much of bid order as possible with eligible offer having minimum duration
-				//  - if any of the bid is left unfilled, move to the next lowest duration offer
-				//  - for bids which are filled, i. price will be the lowest of bid and offer prices;
-				//								ii. duration will be lowest of bid and offer durations
-				if entry, ok := _bids[duration]; ok {
-					entry.quantity = _bids[duration].quantity - minQuantity
-					_bids[duration] = entry
-				}
-
-				if entry, ok := _orders[id]; ok {
-					entry.quantity = _orders[id].quantity - minQuantity
-					_orders[id] = entry
+			for orderId, _ := range _orders {
+				// fmt.Println("OrderID: ", orderId)
+				// fmt.Println(" _orders[orderId].duration: ", _orders[orderId].duration)
+				// fmt.Println("orderDuration:,", orderDuration)
+				if orderDuration == _orders[orderId].duration {
+					// fmt.Println("orderID:", orderId)
+					eligiableIds = append(eligiableIds, orderId)
 				}
 
 			}
+		}
+
+		// for _, i := range eligiableIds {
+		// 	fmt.Println("ids: ", i)
+		// }
+
+		for _, eligiableID := range eligiableIds {
+
+			// fmt.Println("eligiable ID: ", eligiableID)
+
+			if _bids[duration].quantity == 0 {
+				// fmt.Println("Order Quantity Empty ")
+				continue
+			}
+
+			if _orders[eligiableID].quantity == 0 {
+				// fmt.Println("Bid Quantity Empty")
+				continue
+			}
+
+			//if attrBid.quantity >= orders.quantity {
+			fmt.Println("\nBid ID: ", attrBid.ID)
+			fmt.Println("Offer ID: ", eligiableID)
+
+			minQuantity := math.Min(_bids[duration].quantity, _orders[eligiableID].quantity)
+			minDuration := math.Min(float64(duration), float64(_orders[eligiableID].duration))
+			minBidPrice := math.Min(attrBid.bid, _orders[eligiableID].price)
+
+			// fmt.Println("Bid Quantity1: ", _bids[duration].quantity)
+			// fmt.Println("Order Quantity1: ", _orders[id].quantity)
+			fmt.Println("Quantity: ", minQuantity)
+			//fmt.Println("difference1 :", attrBid.quantity-orders.quantity)
+
+			// fmt.Println("Bid Duration: ", _bids[duration].quantity)
+			// fmt.Println("Order Duration: ", _orders[id].quantity)
+			fmt.Println("Duration: ", minDuration)
+
+			// fmt.Println("Bid Price: ", attrBid.bid)
+			// fmt.Println("Order Price: ", orders.price)
+			fmt.Println("Price:", minBidPrice)
+			fmt.Println("Amount: ", minBidPrice*minQuantity)
+
+			// fmt.Println("Bid Quantity2: ", _bids[duration].quantity)
+			// fmt.Println("Difference: ", _bids[duration].quantity-minQuantity)
+			// fmt.Println("_orders Quantity2: ", _orders[id].quantity)
+			//fmt.Println("Difference: ", _orders[id].quantity-minQuantity)
+			quantity += minQuantity
+
+			qxp += minQuantity * minBidPrice
+
+			_xys = append(_xys, struct{ X, Y float64 }{minDuration, minBidPrice})
+
+			//3. when price condition and duration conditions are both met:
+			//  ⁃ satisfy as much of bid order as possible with eligible offer having minimum duration
+			//  - if any of the bid is left unfilled, move to the next lowest duration offer
+			//  - for bids which are filled, i. price will be the lowest of bid and offer prices;
+			//								ii. duration will be lowest of bid and offer durations
+			if entry, ok := _bids[duration]; ok {
+				entry.quantity = _bids[duration].quantity - minQuantity
+				_bids[duration] = entry
+			}
+
+			if entry, ok := _orders[eligiableID]; ok {
+				entry.quantity = _orders[eligiableID].quantity - minQuantity
+				_orders[eligiableID] = entry
+			}
+
 		}
 
 		if quantity != 0 {
