@@ -120,6 +120,12 @@ func OrderMatchingMechanisum() {
 			return eligiableOrderDuration[i] < eligiableOrderDuration[j]
 		})
 
+		//3. when price condition and duration conditions are both met:
+		//  ⁃ satisfy as much of bid order as possible with eligible offer having minimum duration
+		//  - if any of the bid is left unfilled, move to the next lowest duration offer
+		//  - for bids which are filled:
+		//         i. price will be the lowest of bid and offer prices;
+		//		   ii. duration will be lowest of bid and offer durations
 		for _, orderDuration := range eligiableOrderDuration {
 
 			for orderId, _ := range _offers {
@@ -129,12 +135,6 @@ func OrderMatchingMechanisum() {
 			}
 		}
 
-		//3. when price condition and duration conditions are both met:
-		//  ⁃ satisfy as much of bid order as possible with eligible offer having minimum duration
-		//  - if any of the bid is left unfilled, move to the next lowest duration offer
-		//  - for bids which are filled:
-		//         i. price will be the lowest of bid and offer prices;
-		//		   ii. duration will be lowest of bid and offer durations
 		for _, eligiableID := range eligiableIds {
 
 			if _bids[duration].quantity == 0 {
