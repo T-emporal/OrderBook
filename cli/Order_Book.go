@@ -116,9 +116,6 @@ func OrderMatchingMechanisum() {
 				eligiableOrderDuration = append(eligiableOrderDuration, _offers[id].duration)
 			}
 		}
-		sort.Slice(eligiableOrderDuration, func(i, j int) bool {
-			return eligiableOrderDuration[i] < eligiableOrderDuration[j]
-		})
 
 		//3. when price condition and duration conditions are both met:
 		//  ⁃ satisfy as much of bid order as possible with eligible offer having minimum duration
@@ -126,6 +123,10 @@ func OrderMatchingMechanisum() {
 		//  - for bids which are filled:
 		//         i. price will be the lowest of bid and offer prices;
 		//		   ii. duration will be lowest of bid and offer durations
+		sort.Slice(eligiableOrderDuration, func(i, j int) bool {
+			return eligiableOrderDuration[i] < eligiableOrderDuration[j]
+		})
+
 		for _, orderDuration := range eligiableOrderDuration {
 
 			for orderId, _ := range _offers {
