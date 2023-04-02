@@ -97,32 +97,28 @@ func OrderMatchingMechanisum() {
 	}
 	keys := make([]string, 0, len(_bids))
 
-	//1. sort bid  orders in descending order of duration;
+	//  Arrange The Bids In Descending Order Of Duration
 	sort.Sort(sort.Reverse(sort.StringSlice(keys)))
 
+	// 	If Any Portion Of Given Bid
+	// 	Are Left Unfilled, Move To The Next Lowest Duration Offer.
 	for duration, attrBid := range _bids {
 
 		var quantity, qxp float64 = 0, 0
 		var eligiableOrderDuration []int
 		var eligiableIds []int
 
-		//4. once the first bid is filled, move to the next one in the list with descending order of bid duration, and repeat steps 2 to 4
 		for id, orders := range _offers {
 
-			//2.check offer eligibility using following conditions:  ⁃
-			//   i. price condition: (bid price) >= (offer price)
-			//  ii. duration condition: (bid duration) <= (offer duration)
+			// Condition Check:
+			// 		1. Bid Price >= Offer Price
+			// 		2. Bid Duration <= Offer Duration
 			if attrBid.bid >= orders.price && duration <= orders.duration {
 				eligiableOrderDuration = append(eligiableOrderDuration, _offers[id].duration)
 			}
 		}
 
-		//3. when price condition and duration conditions are both met:
-		//  ⁃ satisfy as much of bid order as possible with eligible offer having minimum duration
-		//  - if any of the bid is left unfilled, move to the next lowest duration offer
-		//  - for bids which are filled:
-		//         i. price will be the lowest of bid and offer prices;
-		//		   ii. duration will be lowest of bid and offer durations
+		// Arrange Eligible Offers In Ascending Order Of Duration
 		sort.Slice(eligiableOrderDuration, func(i, j int) bool {
 			return eligiableOrderDuration[i] < eligiableOrderDuration[j]
 		})
@@ -136,6 +132,10 @@ func OrderMatchingMechanisum() {
 			}
 		}
 
+		// Satisfy Bid:
+		//  For Each Portion Of The Given Bid Filled By A Given Offer:
+		//   - Price Will Be The Lowest Of Bid And Offer Prices
+		//   - Duration Will Be Lowest Of Bid And Offer Durations
 		for _, eligiableID := range eligiableIds {
 
 			if _bids[duration].quantity == 0 {
@@ -160,7 +160,7 @@ func OrderMatchingMechanisum() {
 			fmt.Println("Amount: ", minBidPrice*minQuantity)
 
 			quantity += minQuantity
-
+			// Trade Executed
 			qxp += minQuantity * minBidPrice
 
 			_xys = append(_xys, struct{ X, Y float64 }{minDuration, minBidPrice})
