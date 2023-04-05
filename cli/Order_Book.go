@@ -103,13 +103,13 @@ func OrderMatchingMechanisum() {
 	}
 
 	sort.SliceStable(deSortedDuration, func(i, j int) bool {
-		return deSortedDuration[i] > deSortedDuration[j]
+		return deSortedDuration[i] < deSortedDuration[j]
 	})
 
 	// 	If Any Portion Of Given Bid
 	// 	Are Left Unfilled, Move To The Next Lowest Duration Offer.
 	for _, duration := range deSortedDuration {
-
+		// fmt.Println("----duration:", duration)
 		var quantity, qxp float64 = 0, 0
 		var eligiableOrderDuration []int
 		var eligiableIds []int
@@ -119,15 +119,17 @@ func OrderMatchingMechanisum() {
 			// Condition Check:
 			// 		1. Bid Price >= Offer Price
 			// 		2. Bid Duration <= Offer Duration
-			fmt.Println("Offer ID: ", id)
-			fmt.Println("Bid ID: ", _bids[duration].ID)
-			fmt.Println("price-----", _bids[duration].bid >= orders.price)
-			fmt.Println("duration-----", duration <= orders.duration)
+			// fmt.Println("Offer ID: ", id)
+			// fmt.Println("Bid ID: ", _bids[duration].ID)
+			// fmt.Println("price-----", _bids[duration].bid >= orders.price)
+			// fmt.Println("price-----", _bids[duration].bid, orders.price)
+			// fmt.Println("duration-----", duration <= orders.duration)
+			// fmt.Println("duration-----", duration, orders.duration)
 			if _bids[duration].bid >= orders.price && duration <= orders.duration {
 				eligiableOrderDuration = append(eligiableOrderDuration, _offers[id].duration)
 			}
 		}
-		// fmt.Println(eligiableOrderDuration)
+		fmt.Println(eligiableOrderDuration)
 		// Arrange Eligible Offers In Ascending Order Of Duration
 		sort.Slice(eligiableOrderDuration, func(i, j int) bool {
 			return eligiableOrderDuration[i] < eligiableOrderDuration[j]
@@ -220,9 +222,9 @@ func CreateOrders() {
 	var price, quantity float64
 	var duration int
 
-	quantity = 20
-	duration = 15
-	price = 10
+	quantity = 35
+	duration = 20
+	price = 12
 
 	order := Order{
 		price:    price,
@@ -233,22 +235,9 @@ func CreateOrders() {
 	_offers[_id] = order
 	_id += 1
 
-	quantity = 25
-	duration = 20
-	price = 15
-
-	order = Order{
-		price:    price,
-		quantity: quantity,
-		duration: duration,
-	}
-
-	_offers[_id] = order
-	_id += 1
-
 	quantity = 30
-	duration = 25
-	price = 20
+	duration = 45
+	price = 9
 
 	order = Order{
 		price:    price,
@@ -259,9 +248,9 @@ func CreateOrders() {
 	_offers[_id] = order
 	_id += 1
 
-	quantity = 35
-	duration = 30
-	price = 25
+	quantity = 23
+	duration = 26
+	price = 11
 
 	order = Order{
 		price:    price,
@@ -272,9 +261,9 @@ func CreateOrders() {
 	_offers[_id] = order
 	_id += 1
 
-	quantity = 40
-	duration = 35
-	price = 30
+	quantity = 33
+	duration = 36
+	price = 10
 
 	order = Order{
 		price:    price,
@@ -285,26 +274,39 @@ func CreateOrders() {
 	_offers[_id] = order
 	_id += 1
 
-	// quantity = 12
-	// duration = 45
-	// price = 14
+	quantity = 15
+	duration = 10
+	price = 13
 
-	// order = Order{
-	// 	price:    price,
-	// 	quantity: quantity,
-	// 	duration: duration,
-	// }
+	order = Order{
+		price:    price,
+		quantity: quantity,
+		duration: duration,
+	}
 
-	// _offers[_id] = order
-	// _id += 1
+	_offers[_id] = order
+	_id += 1
+
+	quantity = 12
+	duration = 45
+	price = 14
+
+	order = Order{
+		price:    price,
+		quantity: quantity,
+		duration: duration,
+	}
+
+	_offers[_id] = order
+	_id += 1
 }
 
 func CreateBid() {
 
 	var bid, quantity float64
 
-	bid = 10
-	quantity = 15
+	bid = 8
+	quantity = 20
 
 	bids := Bid{
 		bid:      bid,
@@ -312,11 +314,23 @@ func CreateBid() {
 		ID:       _id2,
 	}
 
-	_bids[10] = bids
+	_bids[15] = bids
 	_id2 += 1
 
-	bid = 12
-	quantity = 20
+	bid = 11
+	quantity = 13
+
+	bids = Bid{
+		bid:      bid,
+		quantity: quantity,
+		ID:       _id2,
+	}
+
+	_bids[12] = bids
+	_id2 += 1
+
+	bid = 7
+	quantity = 23
 
 	bids = Bid{
 		bid:      bid,
@@ -328,7 +342,7 @@ func CreateBid() {
 	_id2 += 1
 
 	bid = 15
-	quantity = 22
+	quantity = 16
 
 	bids = Bid{
 		bid:      bid,
@@ -336,35 +350,11 @@ func CreateBid() {
 		ID:       _id2,
 	}
 
-	_bids[15] = bids
+	_bids[19] = bids
 	_id2 += 1
 
-	bid = 20
-	quantity = 35
-
-	bids = Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
-	}
-
-	_bids[16] = bids
-	_id2 += 1
-
-	bid = 30
-	quantity = 40
-
-	bids = Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
-	}
-
-	_bids[20] = bids
-	_id2 += 1
-
-	bid = 21
-	quantity = 45
+	bid = 12
+	quantity = 21
 
 	bids = Bid{
 		bid:      bid,
@@ -375,8 +365,8 @@ func CreateBid() {
 	_bids[18] = bids
 	_id2 += 1
 
-	bid = 24
-	quantity = 35
+	bid = 6
+	quantity = 13
 
 	bids = Bid{
 		bid:      bid,
@@ -384,11 +374,35 @@ func CreateBid() {
 		ID:       _id2,
 	}
 
-	_bids[24] = bids
+	_bids[22] = bids
 	_id2 += 1
 
-	// bid = 5
-	// quantity = 7
+	bid = 3
+	quantity = 10
+
+	bids = Bid{
+		bid:      bid,
+		quantity: quantity,
+		ID:       _id2,
+	}
+
+	_bids[29] = bids
+	_id2 += 1
+
+	bid = 5
+	quantity = 7
+
+	bids = Bid{
+		bid:      bid,
+		quantity: quantity,
+		ID:       _id2,
+	}
+
+	_bids[11] = bids
+	_id2 += 1
+
+	// bid = 17
+	// quantity = 22
 
 	// bids = Bid{
 	// 	bid:      bid,
@@ -396,6 +410,6 @@ func CreateBid() {
 	// 	ID:       _id2,
 	// }
 
-	// _bids[11] = bids
+	// _bids[34] = bids
 	// _id2 += 1
 }
