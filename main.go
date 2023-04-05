@@ -13,7 +13,7 @@ func main() {
 
 	for {
 		fmt.Println("\nEnter 1 to Enter in Order Book ")
-		fmt.Println("Enter 2 Show the Order Book ")
+		fmt.Println("Enter 2 Show the offers ")
 		fmt.Println("Enter 3 to place a bid ")
 		fmt.Println("Enter 4 to show bids")
 		fmt.Println("Enter 5 to Execute Trade ")
