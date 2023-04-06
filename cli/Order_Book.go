@@ -219,197 +219,25 @@ func ShowOrderBook() {
 }
 
 func CreateOrders() {
-	var price, quantity float64
-	var duration int
 
-	quantity = 35
-	duration = 20
-	price = 12
+	quantity := []float64{35, 30, 23, 33, 15, 12}
+	duration := []int{20, 45, 26, 36, 10, 45}
+	price := []float64{12, 9, 11, 10, 13, 14}
 
-	order := Order{
-		price:    price,
-		quantity: quantity,
-		duration: duration,
+	for i := 0; i < len(quantity); i++ {
+		_offers[i+1] = Order{price[i], quantity[i], duration[i]}
 	}
 
-	_offers[_id] = order
-	_id += 1
-
-	quantity = 30
-	duration = 45
-	price = 9
-
-	order = Order{
-		price:    price,
-		quantity: quantity,
-		duration: duration,
-	}
-
-	_offers[_id] = order
-	_id += 1
-
-	quantity = 23
-	duration = 26
-	price = 11
-
-	order = Order{
-		price:    price,
-		quantity: quantity,
-		duration: duration,
-	}
-
-	_offers[_id] = order
-	_id += 1
-
-	quantity = 33
-	duration = 36
-	price = 10
-
-	order = Order{
-		price:    price,
-		quantity: quantity,
-		duration: duration,
-	}
-
-	_offers[_id] = order
-	_id += 1
-
-	quantity = 15
-	duration = 10
-	price = 13
-
-	order = Order{
-		price:    price,
-		quantity: quantity,
-		duration: duration,
-	}
-
-	_offers[_id] = order
-	_id += 1
-
-	quantity = 12
-	duration = 45
-	price = 14
-
-	order = Order{
-		price:    price,
-		quantity: quantity,
-		duration: duration,
-	}
-
-	_offers[_id] = order
-	_id += 1
 }
 
 func CreateBid() {
 
-	var bid, quantity float64
+	bid := []float64{8, 11, 7, 15, 12, 6, 3, 5}
+	quantity := []float64{20, 13, 23, 16, 21, 13, 10, 7}
+	duration := []int{15, 12, 13, 19, 18, 22, 29, 11}
 
-	bid = 8
-	quantity = 20
-
-	bids := Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
+	for i := 0; i < len(quantity); i++ {
+		_bids[duration[i]] = Bid{bid[i], quantity[i], i + 1}
 	}
 
-	_bids[15] = bids
-	_id2 += 1
-
-	bid = 11
-	quantity = 13
-
-	bids = Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
-	}
-
-	_bids[12] = bids
-	_id2 += 1
-
-	bid = 7
-	quantity = 23
-
-	bids = Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
-	}
-
-	_bids[13] = bids
-	_id2 += 1
-
-	bid = 15
-	quantity = 16
-
-	bids = Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
-	}
-
-	_bids[19] = bids
-	_id2 += 1
-
-	bid = 12
-	quantity = 21
-
-	bids = Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
-	}
-
-	_bids[18] = bids
-	_id2 += 1
-
-	bid = 6
-	quantity = 13
-
-	bids = Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
-	}
-
-	_bids[22] = bids
-	_id2 += 1
-
-	bid = 3
-	quantity = 10
-
-	bids = Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
-	}
-
-	_bids[29] = bids
-	_id2 += 1
-
-	bid = 5
-	quantity = 7
-
-	bids = Bid{
-		bid:      bid,
-		quantity: quantity,
-		ID:       _id2,
-	}
-
-	_bids[11] = bids
-	_id2 += 1
-
-	// bid = 17
-	// quantity = 22
-
-	// bids = Bid{
-	// 	bid:      bid,
-	// 	quantity: quantity,
-	// 	ID:       _id2,
-	// }
-
-	// _bids[34] = bids
-	// _id2 += 1
 }
