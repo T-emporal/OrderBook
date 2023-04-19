@@ -246,6 +246,7 @@ func CreateOffers() {
 	for i := 0; i < len(quantity); i++ {
 		_offers[i+1] = Order{price[i], quantity[i], duration[i]}
 	}
+	_id = len(quantity) + 1
 
 }
 
@@ -258,5 +259,5 @@ func CreateBid() {
 	for i := 0; i < len(quantity); i++ {
 		_bids[duration[i]] = Bid{bid[i], quantity[i], i + 1}
 	}
-
+	_id2 = len(quantity) + 1
 }
