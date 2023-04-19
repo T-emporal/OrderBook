@@ -8,7 +8,7 @@ import (
 func main() {
 
 	var number int
-	cli.CreateOrders()
+	cli.CreateOffers()
 	cli.CreateBid()
 
 	for {
