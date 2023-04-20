@@ -20,7 +20,7 @@ This repository aims to provide Temporal's OrderBook Simulation/Prototype
 - Run code through `go run main.go`
 
 ## Code Walk-Through
-- Simulation has already been stored with initial Offers and Bids which could be displayed to execute Trade
+- We have initialised a preset orderbook with bids and offers
 - Initially, when we initiate Simulation it gives options with keys `2` and `4` to add more Offers and Bids, also we can see all Offers and Bids with keys `1` and `3` for both pre and post-trade
 - When Executing Trade with key `5` we can see the Order Matching Mechanism. For every Bid ID, we could see which offer IDs are matched and which trade had taken place. Total Quantity, Price, and Amount are shown for every Bid ID
 - A plot is drawn, against Price and Duration which shows the Continuous, Forward Curves shaped purely by market forces, which could be seen in the working directory as `out.png`
