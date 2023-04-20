@@ -16,11 +16,11 @@ This repository aims to provide Temproal's OrderBook Simulation/Prototype
 - Golang (1.19 or higher)
 
 ## Getting Started 
-- Clone this Rrpository
+- Clone this Repository
 - Run code through `go run main.go`
 
 ## Code Walk-Through
 - Simulation has already been stored with initial Offers and Bids which could be displayed to execute Trade
-- Initially when we intiate Simulation it gives options with key `2` and `4` to add more Offers and Bids, also we can see all Offers and Bids with key `1` and `3` for both pre and post trade
-- When Executing Trade with key `5` we can see the Order Matching Mechanisum. For every Bid ID we could see which all offer ID is matched and trade taken place. Total Quantity, Price and Amount is showed for every Bid ID
-- A plot is drawn, against Price and Duration which shows the Continuous, Forward Curves shaped purely by market forces, which could seen in the working directory as `out.png`
+- Initially, when we initiate Simulation it gives options with keys `2` and `4` to add more Offers and Bids, also we can see all Offers and Bids with keys `1` and `3` for both pre and post-trade
+- When Executing Trade with key `5` we can see the Order Matching Mechanism. For every Bid ID, we could see which offer IDs are matched and which trade had taken place. Total Quantity, Price, and Amount are shown for every Bid ID
+- A plot is drawn, against Price and Duration which shows the Continuous, Forward Curves shaped purely by market forces, which could be seen in the working directory as `out.png`
