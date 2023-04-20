@@ -9,7 +9,7 @@ forces. This allows users to enter Market-Priced, Custom-Maturity Futures and Le
 Borrowing contracts, creating an entirely new DeFi primitive; in contrast to typical
 exchanges which offer a few standardized-maturity contracts with siloed liquidity.
 
-This repository aims to provide Temproal's OrderBook Simulation/Prototype 
+This repository aims to provide Temporal's OrderBook Simulation/Prototype 
 
 ## Prerequisites
 
